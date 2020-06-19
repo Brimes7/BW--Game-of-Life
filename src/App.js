@@ -31,11 +31,15 @@ function App() {
         }
         drawBox()
     },[])
+
+    const clicki = (either)=> {
+    debugger
+    }
   return (
     <div className="App">
       <header className="App-header">
 
-        <canvas ref={canvasi} width={"300px"} height={"450px"}/>
+        <canvas onClick={clicki} ref={canvasi} width={"300px"} height={"450px"}/>
 
         <a
           className="App-link"
