@@ -1,15 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 
 function App() {
     const canvasi = useRef()
+    const [blocky, setBlocky] = useState([])
 
-    useEffect(()=> {
-        /**
-         * @type {HTMLCanvasElement} canvasi.current
-         */
+    const drawBox = ()=>{
         const context = canvasi.current.getContext("2d")
 
         for(let i = 0; i < 25; i ++){
@@ -18,7 +16,21 @@ function App() {
                 context.fillRect(i*10, z*10, 10, 10);
             }
         }
-    })
+
+    }
+
+    useEffect(()=> {
+        //creating our array of elements - PLACEHOLDERS
+        for(let i = 0; i < 25; i ++){
+            blocky.push([])
+            //context.fillRect(i*10, 20, 10, 10);
+            for (let z = 0; z < 25; z ++){
+                const blocking = {alive: false}
+                blocky[i].push(blocking)
+            }
+        }
+        drawBox()
+    },[])
   return (
     <div className="App">
       <header className="App-header">
