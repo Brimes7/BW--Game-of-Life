@@ -167,6 +167,7 @@ function App() {
   return (
     <div className="bigContainer">
       <header className="App-header">
+          Welcome to Trouble's Game of Life!
           <div className="insideAppHeader">
 
               <label className="label">
