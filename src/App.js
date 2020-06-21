@@ -13,6 +13,7 @@ function App() {
     const [rows, setRows] = useState(25)
     const [columns, setColumns] = useState(25)
     const [generation, setGeneration] = useState(0)
+    const [gameSpeed, setGameSpeed] = useState(0)
 
     const drawBox = (blocks)=>{
         const context = canvasi.current.getContext("2d")
@@ -111,10 +112,9 @@ function App() {
             currentBlock.current = "2";
         }
         if(running.current){
-            // window.setTimeout(()=> {
-            //     requestAnimationFrame(gameOfLife)
-            // }, 250)
-            requestAnimationFrame(gameOfLife)
+            window.setTimeout(()=> {
+                requestAnimationFrame(gameOfLife)
+            }, gameSpeed)
         }
         setGeneration((generation)=> {
             return generation +1;
@@ -163,6 +163,10 @@ function App() {
         drawBox(blocky)
         currentBlock.current = "1"
     }
+    const speed = (e)=> {
+        debugger
+        setGameSpeed(e.target.value)
+    }
 
   return (
     <div className="bigContainer">
@@ -181,6 +185,15 @@ function App() {
               </label>
 
           </div>
+          <label className="label">
+              Game Speed:
+          </label>
+                <select className="speeds" value={gameSpeed} onChange={speed}>
+                  <option value={1000}>Slow</option>
+                  <option value={400} >Normal</option>
+                  <option value={0} >Fast</option>
+                </select>
+
           <div className="headerButtons">
               {/*//Will need to add styling  to this later*/}
               <button onClick={randomizeBoard}>Randomize Board</button>
