@@ -5,50 +5,133 @@ import './App.css';
 
 function App() {
     const canvasi = useRef()
-    const [blocky, setBlocky] = useState([])
+    const currentBlock = useRef()
 
-    const drawBox = ()=>{
+    const [blocky, setBlocky] = useState([])
+    const [blockyii, setBlockyii] = useState([])
+    const [rows, setRows] = useState(25)
+    const [columns, setColumns] = useState(25)
+    const [running, setRunning] = useState(false)
+
+    const drawBox = (blocks)=>{
         const context = canvasi.current.getContext("2d")
 
-        for(let i = 0; i < 25; i ++){
-            //context.fillRect(i*10, 20, 10, 10);
-            for (let z = 0; z < 25; z ++){
+        for(let i = 0; i < rows; i ++){
+
+            for (let z = 0; z < columns; z ++){
+                if (blocks[i][z].alive){
+                    context.fillStyle="white"
+                }
+                else{
+                    context.fillStyle="blue"
+                }
                 context.fillRect(i*10, z*10, 10, 10);
             }
         }
 
     }
-
     useEffect(()=> {
         //creating our array of elements - PLACEHOLDERS
-        for(let i = 0; i < 25; i ++){
+        for(let i = 0; i < rows; i ++){
             blocky.push([])
+            blockyii.push([])
             //context.fillRect(i*10, 20, 10, 10);
-            for (let z = 0; z < 25; z ++){
+            for (let z = 0; z < columns; z ++){
                 const blocking = {alive: false}
                 blocky[i].push(blocking)
+                blockyii[i].push({...blocking})
             }
         }
-        drawBox()
-    },[])
+        drawBox(blockyii)
+        currentBlock.current="2"
+        setBlocky(blocky)
+        setBlockyii(blockyii)
+    },[rows, columns])
 
     const clicki = (either)=> {
-    debugger
+        debugger;
+        if(running){
+            return
+        }
+    let x = Math.floor((either.clientX-either.currentTarget.offsetLeft)/10);
+    let y = Math.floor((either.clientY-either.currentTarget.offsetTop)/10);
+
+    blocky[x][y].alive=!blocky[x][y].alive
+        console.log(blocky)
+        drawBox(blocky);
     }
+
+    const gameOfLife = ()=> {
+        let gameBlock = blocky
+        let nextBlock = blockyii
+        if(currentBlock.current==="2"){
+            gameBlock = blockyii;
+            nextBlock = blocky;
+        }
+        for(let i = 0; i < rows; i ++){
+            for(let z = 0; z < columns; z ++){
+                let liveBlocks = 0;
+                for(let j = (i-1); j < (i + 2); j ++){
+                    for(let k = (z-1); k < (z + 2); k ++){
+                        if(j === i && k === z){
+                            continue;
+                        }
+                        if(gameBlock[j][k] && gameBlock[j][k].alive){
+                            liveBlocks ++;
+                        }
+                    }
+                }
+                if (gameBlock[i][z].alive){
+                   if(liveBlocks <2 || liveBlocks > 3){
+                       nextBlock[i][z].alive = false
+                   }
+                   else{
+                       nextBlock[i][z].alive = true
+                   }
+                }
+                else{
+                    if(liveBlocks === 3){
+                        nextBlock[i][z].alive = true
+                    }
+                    else{
+                        nextBlock[i][z].alive = false
+                    }
+                }
+            }
+        }
+    }
+    const changeBoard = (e)=> {
+        if(e.target.name==="rows"){
+            setRows(e.target.value)
+        }
+        else{
+            setColumns(e.target.value)
+        }
+    }
+
   return (
-    <div className="App">
+    <div className="bigContainer">
       <header className="App-header">
+          <div className="insideAppHeader">
 
-        <canvas onClick={clicki} ref={canvasi} width={"300px"} height={"450px"}/>
+              <label className="label">
+                Rows:
+                <input name={"rows"} value={rows} onChange={changeBoard}/>
+              </label>
 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+              <label className="label">
+                  Columns:
+                  <input name={"col"} value={columns} onChange={changeBoard}/>
+              </label>
+
+          </div>
+          <div className="headerButtons">
+              {/*//Will need to add styling  to this later*/}
+              <button>Start</button>
+              <button>Stop</button>
+          </div>
+          Generation:
+        <canvas onClick={clicki} ref={canvasi} width={(columns * 10) + "px"} height={(rows * 10) +"px"}/>
       </header>
     </div>
   );
