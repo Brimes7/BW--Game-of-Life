@@ -6,12 +6,13 @@ import './App.css';
 function App() {
     const canvasi = useRef()
     const currentBlock = useRef()
+    const running = useRef()
 
     const [blocky, setBlocky] = useState([])
     const [blockyii, setBlockyii] = useState([])
     const [rows, setRows] = useState(25)
     const [columns, setColumns] = useState(25)
-    const [running, setRunning] = useState(false)
+    const [generation, setGeneration] = useState(0)
 
     const drawBox = (blocks)=>{
         const context = canvasi.current.getContext("2d")
@@ -43,14 +44,14 @@ function App() {
             }
         }
         drawBox(blockyii)
-        currentBlock.current="2"
+        currentBlock.current="1"
         setBlocky(blocky)
         setBlockyii(blockyii)
     },[rows, columns])
 
     const clicki = (either)=> {
         debugger;
-        if(running){
+        if(running.current){
             return
         }
     let x = Math.floor((either.clientX-either.currentTarget.offsetLeft)/10);
@@ -76,8 +77,11 @@ function App() {
                         if(j === i && k === z){
                             continue;
                         }
+                        try{
                         if(gameBlock[j][k] && gameBlock[j][k].alive){
                             liveBlocks ++;
+                        }}catch(e){
+
                         }
                     }
                 }
@@ -99,14 +103,65 @@ function App() {
                 }
             }
         }
+        drawBox(nextBlock)
+        if(currentBlock.current === "2"){
+            currentBlock.current = "1";
+        }
+        else{
+            currentBlock.current = "2";
+        }
+        if(running.current){
+            // window.setTimeout(()=> {
+            //     requestAnimationFrame(gameOfLife)
+            // }, 250)
+            requestAnimationFrame(gameOfLife)
+        }
+        setGeneration((generation)=> {
+            return generation +1;
+        })
     }
     const changeBoard = (e)=> {
+        if(running.current){
+            return
+        }
         if(e.target.name==="rows"){
             setRows(e.target.value)
         }
         else{
             setColumns(e.target.value)
         }
+    }
+    const startGame = ()=> {
+        running.current = true;
+        requestAnimationFrame(gameOfLife)
+    }
+    const stopGame = ()=> {
+        running.current = false;
+    }
+    const clearBoard = ()=> {
+        running.current = false;
+        for(let i = 0; i < rows; i ++){
+            for(let z = 0; z < rows; z ++){
+                blocky[i][z].alive = false
+                blockyii[i][z].alive = false
+            }
+        }
+        drawBox(blocky)
+        setGeneration(0)
+    }
+    const randomizeBoard = ()=> {
+        for(let i = 0; i < rows; i ++){
+            for(let z = 0; z < rows; z ++){
+                if (Math.random() < .4){
+                    blocky[i][z].alive = true;
+                }
+                else{
+                    blocky[i][z].alive = false;
+                }
+            }
+        }
+        drawBox(blocky)
+        currentBlock.current = "1"
     }
 
   return (
@@ -127,10 +182,12 @@ function App() {
           </div>
           <div className="headerButtons">
               {/*//Will need to add styling  to this later*/}
-              <button>Start</button>
-              <button>Stop</button>
+              <button onClick={randomizeBoard}>Randomize Board</button>
+              <button onClick={startGame}>Start</button>
+              <button onClick={stopGame}>Stop</button>
+              <button onClick={clearBoard}>Clear Board</button>
           </div>
-          Generation:
+          Generation: {generation}
         <canvas onClick={clicki} ref={canvasi} width={(columns * 10) + "px"} height={(rows * 10) +"px"}/>
       </header>
     </div>
