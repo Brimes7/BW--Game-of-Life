@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 
@@ -185,6 +184,7 @@ function App() {
               </label>
 
           </div>
+          <div className={"Row"}>
           <label className="label">
               Game Speed:
           </label>
@@ -193,7 +193,7 @@ function App() {
                   <option value={400} >Normal</option>
                   <option value={0} >Fast</option>
                 </select>
-
+            </div>
           <div className="headerButtons">
               {/*//Will need to add styling  to this later*/}
               <button onClick={randomizeBoard}>Randomize Board</button>
