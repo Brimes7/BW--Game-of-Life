@@ -3,6 +3,7 @@ import './App.css';
 
 
 function App() {
+
     const canvasi = useRef()
     const currentBlock = useRef()
     const running = useRef()
@@ -171,19 +172,31 @@ function App() {
     <div className="bigContainer">
       <header className="App-header">
           Welcome to Trouble's Game of Life!
+          <br/>
           <div className="insideAppHeader">
-
               <label className="label">
+                  Here are a couple rules so you know how this game works!
+                  <br/>
+                  <li> Any live cell with fewer than two live neighbours dies, as if by underpopulation. </li>
+                  <li> Any live cell with two or three live neighbours lives on to the next generation. </li>
+                  <li> Any live cell with more than three live neighbours dies, as if by overpopulation. </li>
+                  <li> Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+                  <br/>
+                  These rules were created to mimic the behavior of real life.
+                  <br/>
+                  To Continue below pick a board size. The default begins at 25 by 25 and can go as high as your screen allows. Next select a speed at which you would like to see the generations occur. Please note you may change your mind of the speed if you choose one that is faster than you preferred. Next you may either choose to randomize the board or play around with the rules already listed below. Then Click Start to begin and Stop to pause the game. Should you wish to begin again simply click Clear Board and a new generation will begin!
+                  <br/>
+              </label>
+              <label className="board">
                 Rows:
                 <input name={"rows"} value={rows} onChange={changeBoard}/>
               </label>
 
-              <label className="label">
+              <label className="board">
                   Columns:
                   <input name={"col"} value={columns} onChange={changeBoard}/>
               </label>
 
-          </div>
           <div className={"Row"}>
           <label className="label">
               Game Speed:
@@ -203,6 +216,7 @@ function App() {
           </div>
           Generation: {generation}
         <canvas onClick={clicki} ref={canvasi} width={(columns * 10) + "px"} height={(rows * 10) +"px"}/>
+    </div>
       </header>
     </div>
   );
