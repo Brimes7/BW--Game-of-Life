@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fb9cb1f1aa305607ad4b37f58d3ac535",
+    "revision": "1082879614a8ef286b75331d5942e7c7",
     "url": "/BW--Game-of-Life/index.html"
   },
   {
-    "revision": "1ed3a7c8208fec7f50bb",
-    "url": "/BW--Game-of-Life/static/css/main.5f361e03.chunk.css"
+    "revision": "80f970c433647520e904",
+    "url": "/BW--Game-of-Life/static/css/main.1f6068d6.chunk.css"
   },
   {
     "revision": "186ef956d001fa7013b0",
@@ -16,15 +16,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/BW--Game-of-Life/static/js/2.6ee8dbe1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1ed3a7c8208fec7f50bb",
-    "url": "/BW--Game-of-Life/static/js/main.98a8113a.chunk.js"
+    "revision": "80f970c433647520e904",
+    "url": "/BW--Game-of-Life/static/js/main.10ed5f09.chunk.js"
   },
   {
     "revision": "467bf598ff1ea991cd43",
     "url": "/BW--Game-of-Life/static/js/runtime-main.cb50bfdd.js"
-  },
-  {
-    "revision": "5d5d9eefa31e5e13a6610d9fa7a283bb",
-    "url": "/BW--Game-of-Life/static/media/logo.5d5d9eef.svg"
   }
 ]);
